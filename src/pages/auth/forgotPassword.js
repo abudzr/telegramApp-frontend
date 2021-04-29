@@ -2,12 +2,41 @@ import React, { useState } from 'react'
 // import { Link } from 'react-router-dom'
 import './auth.css'
 import Button from '../../components/Button'
+import Swal from 'sweetalert2'
+import axios from 'axios'
 
 function ForgotPassword(props) {
+    const [data, setData] = useState({
+        email: ""
+    });
 
     const handleback = () => {
         props.history.push('/login')
     }
+
+    const handleFormChange = (event) => {
+        const dataNew = {
+            ...data,
+        };
+        dataNew[event.target.name] = event.target.value;
+        setData(dataNew);
+    };
+
+    const handleForgot = (event) => {
+        event.preventDefault();
+        const url = process.env.REACT_APP_API_API
+        axios.post(`${url}/users/auth/forgot-password`, data)
+            .then(res => {
+                console.log(res);
+                Swal.fire("Success", res.data.message, "success");
+                props.history.push('/login')
+            })
+            .catch(err => {
+                console.log(err);
+                Swal.fire("Error", "Reset Password Failed", "error");
+            })
+    }
+
 
     return (
         <div className="bg-auth">
@@ -28,11 +57,11 @@ function ForgotPassword(props) {
                                 name="email"
                                 id="email"
                                 placeholder="Enter your email adress"
-                            // value={data.email}
-                            // onChange={handleFormChange}
+                                // value={data.email}
+                                onChange={handleFormChange}
                             />
                         </div>
-                        <Button title="Send" btn="btn-auth" />
+                        <Button title="Send" btn="btn-auth" onClick={handleForgot} />
                     </form>
                 </div>
             </div>

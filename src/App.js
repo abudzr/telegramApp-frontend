@@ -5,6 +5,7 @@ import Login from './pages/auth/login'
 import Register from './pages/auth/signup'
 import ForgotPassword from './pages/auth/forgotPassword'
 import ResetPassword from './pages/auth/resetPassword'
+import Chat from './pages/main/chat'
 
 // import ChatRoom from './page/main/ChatRoom'
 // import Dashboard from './page/main/Dasboard'
@@ -37,10 +38,10 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Register} />
         <Route path="/forgot-password" component={ForgotPassword} />
-        <Route path="/reset-password/:email/:token" component={ResetPassword} />
+        <Route path="/reset-password/:email/:token" render={(props) => <ResetPassword {...props} />} />
 
 
-        {/* <Route path="/chatroom/:room" render={(props) => <ChatRoom {...props} socket={socket} />} /> */}
+        <Route path="/chatroom/" render={(props) => <Chat {...props} socket={socket} />} />
         {/* <Route path="/dashboard" render={(props) => <Dashboard {...props} socket={socket} />} /> */}
       </Switch>
     </BrowserRouter>
