@@ -1,9 +1,10 @@
 import React from 'react'
 import ChatList from '../../parts/Chat'
 
-function chat() {
+function chat({ socket }) {
     return (
-        <ChatList />
+        <ChatList
+            socket={socket} />
     )
 }
 

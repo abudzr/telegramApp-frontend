@@ -20,11 +20,26 @@
     color: #7E98DF;
 }
 
-.pict-user img {
-    display: flex;
+.pict-user {
     padding-left: 40px;
+}
+
+.pict-user:hover Button {
+    display: block;
+    opacity: 0.8;
+}
+
+.pict-user Button {
+    display: none;
+}
+
+.picture-user {
+    display: flex;
     margin-left: auto;
     margin-right: auto;
+    width: 82px;
+    height: 82px;
+    border-radius: 30px;
 }
 
 .info-username h3 {
@@ -55,7 +70,7 @@
 .account-profile {
     overflow: auto;
     width: 390px;
-    height: 365px;
+    height: 425px;
     margin-top: 30px;
 }
 
@@ -94,6 +109,7 @@
 }
 
 .account-profile i {
+    margin-left: 30px;
     font-size: 14px;
     cursor: pointer;
 }
@@ -114,13 +130,26 @@
     border-bottom: 1px solid #F6F6F6;
 }
 
-.account-profile h2 {
+.account-profile h2,
+.username-input input,
+.bio-input {
     font-family: Rubik;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
     color: #232323;
+}
+
+.bio-input textarea {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    background: #fff;
+    overflow: hidden;
+    overflow-y: auto;
+    resize: none;
 }
 
 .account-profile span {

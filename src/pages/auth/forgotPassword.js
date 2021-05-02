@@ -1,42 +1,59 @@
-import React, { useState } from 'react'
-// import { Link } from 'react-router-dom'
+import React from 'react'
 import './auth.css'
 import Button from '../../components/Button'
 import Swal from 'sweetalert2'
-import axios from 'axios'
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { activate } from "../../configs/redux/actions/user";
+import * as Yup from 'yup';
+import { useFormik } from "formik";
 
 function ForgotPassword(props) {
-    const [data, setData] = useState({
-        email: ""
-    });
+    const history = useHistory();
+
+    const dispatch = useDispatch();
 
     const handleback = () => {
         props.history.push('/login')
     }
 
-    const handleFormChange = (event) => {
-        const dataNew = {
-            ...data,
-        };
-        dataNew[event.target.name] = event.target.value;
-        setData(dataNew);
-    };
-
-    const handleForgot = (event) => {
-        event.preventDefault();
-        const url = process.env.REACT_APP_API_API
-        axios.post(`${url}/users/auth/forgot-password`, data)
-            .then(res => {
-                console.log(res);
-                Swal.fire("Success", res.data.message, "success");
-                props.history.push('/login')
-            })
-            .catch(err => {
-                console.log(err);
-                Swal.fire("Error", "Reset Password Failed", "error");
-            })
-    }
-
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email("Invalid email format")
+                .required("Required!"),
+        }),
+        onSubmit: values => {
+            dispatch(activate(values))
+                .then((res) => {
+                    Swal.fire({
+                        title: "Success!",
+                        text: res,
+                        icon: "success",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#ffba33",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/login");
+                        } else {
+                            history.push("/login");
+                        }
+                    });
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        title: "Error!",
+                        text: err,
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#6a4029",
+                    });
+                });
+        }
+    });
 
     return (
         <div className="bg-auth">
@@ -48,7 +65,7 @@ function ForgotPassword(props) {
                     </div>
                     <p className="sub-title-auth">You’ll get messages soon on your e-mail </p>
 
-                    <form className="mt-4">
+                    <form className="mt-4" onSubmit={formik.handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input
@@ -57,11 +74,14 @@ function ForgotPassword(props) {
                                 name="email"
                                 id="email"
                                 placeholder="Enter your email adress"
-                                // value={data.email}
-                                onChange={handleFormChange}
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
                             />
+                            {formik.errors.email && formik.touched.email && (
+                                <p className="error">{formik.errors.email}</p>
+                            )}
                         </div>
-                        <Button title="Send" btn="btn-auth" onClick={handleForgot} />
+                        <Button title="Send" btn="btn-auth" />
                     </form>
                 </div>
             </div>

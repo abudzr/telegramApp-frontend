@@ -1,17 +1,73 @@
 import React, { useState } from 'react'
 // import { Link } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../configs/redux/actions/user";
 import './auth.css'
 import Button from '../../components/Button'
 import Swal from 'sweetalert2'
-import axios from 'axios'
+import * as Yup from 'yup';
+import { useFormik } from "formik";
+
+// import axios from 'axios'
 
 function SignUp(props) {
-    const [isPasswordShow, setIsPasswordShow] = useState(false);
-    const [data, setData] = useState({
-        fullName: "",
-        email: "",
-        password: "",
+    const formik = useFormik({
+        initialValues: {
+            fullName: "",
+            email: "",
+            password: "",
+        },
+        validationSchema: Yup.object({
+            fullName: Yup.string()
+                .min(2, "Mininum 2 characters")
+                .max(15, "Maximum 15 characters")
+                .required("Required!"),
+            email: Yup.string()
+                .email("Invalid email format")
+                .required("Required!"),
+            password: Yup.string()
+                .min(8, "Minimum 8 characters")
+                .required("Required!")
+            // confirm_password: Yup.string()
+            //     .oneOf([Yup.ref("password")], "Password's not match")
+            //     .required("Required!")
+        }),
+        onSubmit: values => {
+            dispatch(signUp(values))
+                .then((res) => {
+                    Swal.fire({
+                        title: "Success!",
+                        text: res,
+                        icon: "success",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#ffba33",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/login");
+                        } else {
+                            history.push("/login");
+                        }
+                    });
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        title: "Error!",
+                        text: err,
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#6a4029",
+                    });
+                });
+            // alert(JSON.stringify(values, null, 2));
+        }
     });
+    const history = useHistory();
+
+    const dispatch = useDispatch();
+
+    const [isPasswordShow, setIsPasswordShow] = useState(false);
+
 
     const handleback = () => {
         props.history.push('/login')
@@ -19,29 +75,6 @@ function SignUp(props) {
 
     const tooglePasswordVisibility = () => {
         setIsPasswordShow(!isPasswordShow)
-    }
-
-    const handleFormChange = (event) => {
-        const dataNew = {
-            ...data,
-        };
-        dataNew[event.target.name] = event.target.value;
-        setData(dataNew);
-    };
-
-    const handleSignUp = (event) => {
-        event.preventDefault();
-        const url = process.env.REACT_APP_API_API
-        axios.post(`${url}/users/`, data)
-            .then(res => {
-                console.log(res);
-                Swal.fire("Success", res.data.message, "success");
-                props.history.push('/login')
-            })
-            .catch(err => {
-                console.log(err);
-                Swal.fire("Error", "Sign Up Failed", "error");
-            })
     }
 
     return (
@@ -54,7 +87,7 @@ function SignUp(props) {
                     </div>
                     <p className="sub-title-auth">Let’s create your account!</p>
 
-                    <form className="mt-4">
+                    <form className="mt-4" onSubmit={formik.handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="fullName">Name</label>
                             <input
@@ -63,9 +96,13 @@ function SignUp(props) {
                                 name="fullName"
                                 id="fullName"
                                 placeholder="Enter your name"
-                                // value={data.email}
-                                onChange={handleFormChange}
+                                value={formik.values.fullName}
+                                onChange={formik.handleChange}
+                            // onChange={handleFormChange}
                             />
+                            {formik.errors.fullName && formik.touched.fullName && (
+                                <p className="error">{formik.errors.fullName}</p>
+                            )}
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
@@ -75,9 +112,14 @@ function SignUp(props) {
                                 name="email"
                                 id="email"
                                 placeholder="Enter your email adress"
-                                // value={data.email}
-                                onChange={handleFormChange}
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                            // value={data.email}
+                            // onChange={handleFormChange}
                             />
+                            {formik.errors.email && formik.touched.email && (
+                                <p className="error">{formik.errors.email}</p>
+                            )}
                         </div>
                         <div className="form-group mt-4 password-input">
                             <label htmlFor="password">Password</label>
@@ -87,13 +129,18 @@ function SignUp(props) {
                                 name="password"
                                 id="password"
                                 placeholder="Enter your password"
-                                // value={data.password}
-                                onChange={handleFormChange}
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                            // value={data.password}
+                            // onChange={handleFormChange}
                             />
+                            {formik.errors.password && formik.touched.password && (
+                                <p className="error">{formik.errors.password}</p>
+                            )}
                             <i className={`fa ${isPasswordShow ? "fa-eye-slash" : "fa-eye"}  password-icon`} onClick={tooglePasswordVisibility} />
                         </div>
-
-                        <Button title="Register" btn="btn-auth" onClick={handleSignUp} />
+                        {/* onClick={handleSignUp} */}
+                        <Button title="Register" btn="btn-auth" />
                         <div className="d-flex mt-4 mb-4 text-hr">
                             <hr />
                             <p>Register with</p>

@@ -6,7 +6,7 @@
 
 /* aside-left */
 .aside-left {
-    height: 616px;
+    height: 690px;
     border-radius: 0px;
     background: #FFFFFF;
 }
@@ -117,7 +117,7 @@
     font-size: 24px;
     color: #7E98DF;
     margin-top: 40px;
-    margin-left: 67px;
+    margin-left: 100px;
     cursor: pointer;
 }
 
@@ -162,9 +162,9 @@
 
 /* list chatting */
 .all-list-chatting {
-    overflow: auto;
-    width: 390px;
-    height: 349px;
+    overflow-y: auto;
+    width: 430px;
+    height: 419px;
 }
 
 .all-list-chatting::-webkit-scrollbar {
@@ -188,6 +188,7 @@
     position: relative;
     cursor: pointer;
     padding-left: 40px;
+    margin-bottom: 20px;
 }
 
 .list-chatting:hover,
@@ -211,13 +212,12 @@
     margin-top: 10px;
 }
 
-.list-chatting p {
+.last-message {
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    text-align: center;
     letter-spacing: -0.165px;
     color: #7E98DF;
 }
@@ -243,15 +243,20 @@
 
 .icon-notification-delivered {
     margin-right: -10px !important;
+    position: relative;
 }
 
 .icon-notification-delivered span {
     color: #C4C4C4;
-    margin-right: 10px;
+    position: absolute;
+    right: 40px;
+    /* margin-right: 10px; */
 }
 
 .icon-notification-delivered .icon-down {
     margin-top: -6px;
+    position: absolute;
+    right: 20px;
     font-size: 25px;
     display: none;
 }
@@ -292,7 +297,7 @@
     position: relative;
     border-left: 0.1px solid #C4C4C4;
     width: 100%;
-    height: 616px;
+    height: 690px;
     background: #FAFAFA;
 }
 
@@ -310,6 +315,7 @@
 
 /* header chat */
 .header-chat-message {
+    position: fixed;
     position: absolute;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -369,12 +375,78 @@
     line-height: 156%;
     letter-spacing: -0.165px;
     color: #FFFFFF;
+    cursor: pointer;
 }
 
+/* messages */
+.messages-user {
+    padding-top: 100px;
+    padding-bottom: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+    width: 100%;
+    margin-left: -12px;
+    height: 620px;
+    overflow-y: auto !important;
+
+}
+
+.messages-user::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+}
+
+.chat-message-from {
+    padding: 10px;
+    width: fit-content;
+    background: #FFFFFF;
+    border-radius: 35px 10px 35px 35px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 185.17%;
+    letter-spacing: -0.165px;
+    color: #232323;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.sender p,
+.receive p {
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 156%;
+    letter-spacing: -0.165px;
+    color: #7E98DF;
+}
+
+
+.chat-message-to {
+    padding: 10px;
+    width: fit-content;
+    background: #7E98DF;
+    border-radius: 35px 35px 35px 10px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 185.17%;
+    letter-spacing: -0.165px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 
 
 /* footer chat message */
 .footer-chat-message {
+    position: fixed;
     position: absolute;
     padding-top: 15px;
     padding-bottom: 10px;
@@ -382,7 +454,7 @@
     left: 0px;
     bottom: 0px;
     width: 100%;
-    height: 60px;
+    height: 70px;
     background: #FFFFFF;
 }
 
@@ -403,8 +475,8 @@
 
 .icon-chat {
     position: absolute;
-    bottom: 15px;
-    right: 90px;
+    bottom: 24px;
+    right: 170px;
     color: #7E98DF;
     cursor: pointer;
 }
@@ -412,4 +484,16 @@
 .icon-chat i {
     margin-right: 15px;
     font-size: 20px;
+}
+
+.footer-chat-message .send-message button {
+    border: none;
+    background: #fff;
+}
+
+.footer-chat-message .send-message {
+    margin-left: 10px;
+    font-size: 22px;
+    color: #7E98DF;
+    cursor: pointer;
 }
