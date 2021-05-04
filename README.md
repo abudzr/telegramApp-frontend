@@ -32,3 +32,4 @@ Telegram app merupakan aplikasi pesan singkat secara realtime. Memiliki fitur ak
 ## Link
 
 - [Backend](https://github.com/abudzr/telegramApp-backend)
+- [Visit Project](https://telegramaps.netlify.app/)
