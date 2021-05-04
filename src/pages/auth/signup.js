@@ -92,7 +92,7 @@ function SignUp(props) {
                             <label htmlFor="fullName">Name</label>
                             <input
                                 type="text"
-                                className="form-control mt-1"
+                                className="form-control"
                                 name="fullName"
                                 id="fullName"
                                 placeholder="Enter your name"
@@ -108,7 +108,7 @@ function SignUp(props) {
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
-                                className="form-control mt-1"
+                                className="form-control"
                                 name="email"
                                 id="email"
                                 placeholder="Enter your email adress"
@@ -121,11 +121,11 @@ function SignUp(props) {
                                 <p className="error">{formik.errors.email}</p>
                             )}
                         </div>
-                        <div className="form-group mt-4 password-input">
+                        <div className="form-group password-input">
                             <label htmlFor="password">Password</label>
                             <input
                                 type={(isPasswordShow) ? "text" : "password"}
-                                className="form-control mt-1"
+                                className="form-control"
                                 name="password"
                                 id="password"
                                 placeholder="Enter your password"
@@ -141,7 +141,7 @@ function SignUp(props) {
                         </div>
                         {/* onClick={handleSignUp} */}
                         <Button title="Register" btn="btn-auth" />
-                        <div className="d-flex mt-4 mb-4 text-hr">
+                        <div className="d-flex mt-2 mb-2 text-hr">
                             <hr />
                             <p>Register with</p>
                             <hr />

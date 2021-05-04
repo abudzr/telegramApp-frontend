@@ -66,7 +66,7 @@ function ChatList({ socket }) {
         setcreateOption(false)
     }
     const handleCreateChannelGruop = () => {
-        alert("ada")
+        alert("Coming Soon")
     }
     // create option
     const handleOptionMenu = () => {
@@ -105,25 +105,7 @@ function ChatList({ socket }) {
             })
     };
 
-    const handleInputMessage = (e) => {
-        setMessage(e.target.value);
-        setKeyword(e.target.value);
-        if (e.keyCode === 13) {
-            setKeyword("");
-            handleSendMessage();
-        }
-    }
 
-    const handleSendMessage = () => {
-        socket.emit('sendMessage', {
-            chat: message,
-            idTo: idReceiver,
-            idFrom: idUser
-        }, (data) => {
-            // console.log('callback', data);
-            setMessages(data)
-        })
-    }
 
     // chat menu
     const handleChatMenu = () => {
@@ -177,12 +159,25 @@ function ChatList({ socket }) {
         });
     };
 
+    const handleInputMessage = (e) => {
+        setMessage(e.target.value);
+        setKeyword(e.target.value);
+        if (e.keyCode === 13) {
+            setKeyword("");
+            handleSendMessage();
+        }
+    }
 
-
-
-
-
-
+    const handleSendMessage = () => {
+        socket.emit('sendMessage', {
+            chat: message,
+            idTo: idReceiver,
+            idFrom: idUser
+        }, (data) => {
+            // console.log('callback', data);
+            setMessages(data)
+        })
+    }
 
     // socket
     useEffect(() => {
@@ -296,7 +291,7 @@ function ChatList({ socket }) {
                                 <i className="fa fa-plus icon-plus" />
                             </div>
                             <div className="button-sorting d-flex ">
-                                <button type="submit">All</button>
+                                <button className="active" type="submit">All</button>
                                 <button type="submit">Important</button>
                                 <button type="submit">Unread</button>
                                 <button type="submit">Read</button>

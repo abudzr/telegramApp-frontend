@@ -72,7 +72,7 @@ function Login() {
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
-                                className="form-control mt-1"
+                                className="form-control"
                                 name="email"
                                 id="email"
                                 placeholder="Enter your email adress"
@@ -83,11 +83,11 @@ function Login() {
                                 <p className="error">{formik.errors.email}</p>
                             )}
                         </div>
-                        <div className="form-group mt-4 password-input">
+                        <div className="form-group password-input">
                             <label htmlFor="password">Password</label>
                             <input
                                 type={(isPasswordShow) ? "text" : "password"}
-                                className="form-control mt-1"
+                                className="form-control"
                                 name="password"
                                 id="password"
                                 placeholder="Enter your password"
@@ -103,7 +103,7 @@ function Login() {
                             <Link to="/forgot-password">Forgot Password?</Link>
                         </div>
                         <Button title="Login" btn="btn-auth" />
-                        <div className="d-flex mt-4 mb-4 text-hr">
+                        <div className="d-flex mt-2 mb-2 text-hr">
                             <hr />
                             <p>Login with</p>
                             <hr />
