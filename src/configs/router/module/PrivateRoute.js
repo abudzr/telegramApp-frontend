@@ -7,7 +7,7 @@ function PrivateRoute({ component: Component, ...rest }) {
   const [socket, setSocket] = useState(null)
 
   const setupSocket = () => {
-    const newSocket = io("http://localhost:8080")
+    const newSocket = io("https://be-telegramapp.fwdev.online")
     setSocket(newSocket)
   }
 
