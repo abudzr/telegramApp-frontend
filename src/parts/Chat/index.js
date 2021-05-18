@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import { findUserById, getAllUser } from "../../configs/redux/actions/user";
 import { getMessages, deleteHistoryChat } from "../../configs/redux/actions/message"
 
@@ -34,6 +36,8 @@ import SettingChat from './SettingChat'
 
 toast.configure()
 function ChatList({ socket }) {
+    const history = useHistory();
+
     // console.log(socket);
     // env
     const ImgUrl = process.env.REACT_APP_API_URLIMG;
@@ -79,6 +83,11 @@ function ChatList({ socket }) {
     const handleBack = () => {
         setSetting(false);
         setcreateOption(false);
+        dispatch(getAllUser())
+    }
+    const handleBackMobile = () => {
+        setChat(false);
+        setIdReceiver(null)
     }
     // edit chat
     const handleEditChat = () => {
@@ -112,6 +121,11 @@ function ChatList({ socket }) {
         setProfileMenu(!profileMenu)
     }
 
+    const handleLogout = () => {
+        history.push("/login");
+        localStorage.removeItem("id");
+        localStorage.removeItem("token");
+    }
     // delete
     // const handleDelete = (id) => {
     //     alert(id)
@@ -184,20 +198,26 @@ function ChatList({ socket }) {
         if (socket) {
             socket.on('receiverMessage', (result) => {
                 const lastmessage = result[result.length - 1]
-                // console.log(result[result.length - 1].chat);
-                const notify = () => {
-                    toast.info("You Have New Messages");
-                }
-                notify();
-                // const notify = () => {
-                //     toast.info(`${newmessage}`);
-                // }
-                // notify();
                 setMessages(result)
                 setLastMessage(lastmessage)
             })
         }
     }, [socket, messages])
+
+    useEffect(() => {
+        if (socket) {
+            socket.off('notif')
+            socket.on('notif', (data) => {
+                if (data.idTo !== idReceiver && data.type === "receive") {
+                    const notify = () => {
+                        toast.info("You Have New Messages");
+                    }
+                    notify();
+                }
+
+            })
+        }
+    }, [socket, idReceiver])
 
     useEffect(() => {
         if (socket) {
@@ -231,7 +251,7 @@ function ChatList({ socket }) {
                 pauseOnHover
             />
             <div className="row">
-                <div className="col-lg-4 aside-left">
+                <div className="col-lg-4 col-12 aside-left">
                     {setting === false ?
                         <div>
                             <div className="header-chat d-flex justify-content-between">
@@ -270,9 +290,13 @@ function ChatList({ socket }) {
                                                 <img src={Invitefriends} alt="Invitefriends" width="22" height="20" />
                                                 <p>Invite Friends</p>
                                             </div>
-                                            <div className="d-flex ">
+                                            <div className="d-flex mb-4 ">
                                                 <img src={FAQ} alt="FAQ" width="22" height="22" />
                                                 <p>Telegram FAQ</p>
+                                            </div>
+                                            <div className="d-flex " onClick={handleLogout}>
+                                                <img src={FAQ} alt="FAQ" width="22" height="22" />
+                                                <p>Logout</p>
                                             </div>
                                         </div>
                                         :
@@ -341,7 +365,7 @@ function ChatList({ socket }) {
                 </div>
 
                 {/* aside right */}
-                <div className="col-lg-8 aside-right ">
+                <div className="col-lg-8 col-12 aside-right ">
                     {chat === false ?
                         <h1>Please select a chat to start messaging</h1>
                         :
@@ -434,6 +458,99 @@ function ChatList({ socket }) {
                         </>
                     }
                 </div>
+                {/* aside right mobile */}
+                {chat === true &&
+                    <div className="col-12 aside-right-mobile ">
+                        <div className="aside-chatting">
+                            <div className="header-chat-message">
+                                <div className="header-chat-profile d-flex">
+                                    <i className="fa fa-angle-left" onClick={handleBackMobile} />
+
+                                    <img src={`${ImgUrl}${dataReceiver.image}`} alt="user pict" width="64" height="64" />
+                                    <div className="ml-3">
+                                        <h2>{dataReceiver.fullName}</h2>
+                                        <p>Online</p>
+                                    </div>
+                                    <div className="profile-menu-message">
+                                        <img className="profile-menu" src={Profilemenu} alt="profile-menu" width="20" height="19" onClick={handleChatMenu} />
+                                        {profileMenu === false ? "" :
+                                            <>
+                                                <div className="chat-menu">
+                                                    <div className="d-flex">
+                                                        <img src={calls} alt="calls" width="22" height="22" />
+                                                        <p>Call</p>
+                                                    </div>
+                                                    <div className="d-flex">
+                                                        <img src={deleteChat} alt="deleteChat" width="22" height="22" />
+                                                        <p onClick={handleDelete}>Delete chat history</p>
+                                                    </div>
+                                                    <div className="d-flex">
+                                                        <img src={Mute} alt="Mute" width="22" height="22" />
+                                                        <p>Mute notification</p>
+                                                    </div>
+                                                    <div className="d-flex">
+                                                        <img src={Search} alt="Search" width="22" height="22" />
+                                                        <p>Search</p>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* isi chat */}
+                            <div className="messages-user ">
+
+                                {messages.map((item, index) =>
+                                    item.idFrom === Number(idUser) &&
+                                        item.type === "send" &&
+                                        item.idTo === idReceiver ? (
+                                        <>
+                                            <div className="sender d-flex justify-content-end align-items-start" key={index}>
+                                                <p>{item.time}</p>
+                                                <div className="chat-message-from " onClick={() => handleDelete(item.id)}>
+                                                    <div >{item.chat}</div>
+                                                </div>
+
+                                            </div>
+                                        </>
+                                    ) : item.idFrom === Number(idUser) &&
+                                        item.type === "receive" &&
+                                        item.idTo === idReceiver ? (
+                                        <>
+                                            <div className="receive d-flex justify-content-start align-items-end" key={index}>
+
+                                                <div className="chat-message-to " onClick={() => handleDelete(item.id)} >
+                                                    <div>{item.chat}</div>
+                                                </div>
+                                                <p>{item.time}</p>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        ""
+                                    )
+                                )}
+
+                            </div>
+
+                            <div className="footer-chat-message d-flex">
+                                <input type="text" placeholder="Type your message..." name="chat" id="chat" value={keyword} onChange={handleInputMessage} onKeyUp={handleInputMessage} />
+                                <div className="icon-chat d-flex">
+                                    <i className="fa fa-plus" />
+                                    <i className="fa fa-grin-alt" />
+                                    <img src={inputchat} alt="inputchat" />
+                                </div>
+                                <div className="send-message">
+                                    <button type="button" onClick={handleSendMessage}>
+                                        <i className="fa fa-paper-plane send-message" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
             </div>
         </div>
     )

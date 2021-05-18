@@ -7,7 +7,8 @@ function PrivateRoute({ component: Component, ...rest }) {
   const [socket, setSocket] = useState(null)
 
   const setupSocket = () => {
-    const newSocket = io("https://be-telegramapp.fwdev.online")
+    console.log(process.env.REACT_APP_API_SOCKET);
+    const newSocket = io(`${process.env.REACT_APP_API_SOCKET}`)
     setSocket(newSocket)
   }
 
