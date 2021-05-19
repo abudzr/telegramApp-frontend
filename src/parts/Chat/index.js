@@ -126,11 +126,6 @@ function ChatList({ socket }) {
         localStorage.removeItem("id");
         localStorage.removeItem("token");
     }
-    // delete
-    // const handleDelete = (id) => {
-    //     alert(id)
-    // }
-
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure you want to delete this?",
