@@ -1,8 +1,11 @@
 <h1 align="center" style='color:#7EA0E7'>Telegram</h1>
 
 <div align="center">
+  
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c34969b8-d09c-46ad-a193-afbaccda7c5a/deploy-status)](https://telegramaps.netlify.app)
+
 </div>
+
 ---
 
 ## ✏️ About
