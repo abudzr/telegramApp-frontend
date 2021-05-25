@@ -1,4 +1,6 @@
-<h1 align="center" style='color:#7EA0E7'>Telegram</h1>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/68935056/119450034-97b8a200-bd5d-11eb-84c2-5fa095c791ee.png"   alt="Telegram" border="0" />
+</p>
 
 <div align="center">
   
