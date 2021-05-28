@@ -12,7 +12,7 @@
 
 ## ✏️ About
 
-Telegram app merupakan aplikasi pesan singkat secara realtime. Memiliki fitur aktivasi email, autentikasi, chating secara realtime dan dapat mengupdate data diri. Aplikasi ini menggunakan ReactJs, NodeJs, ExpressJs dan Socket.io.
+The Telegram app is a chat application that allows users to send messages to other users in realtime. Built with ReactJs, ExpressJs, Redux, socket.io and MySQL.
 
 ## 🔖Build With
 - ReactJS
